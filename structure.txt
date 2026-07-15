@@ -1,0 +1,241 @@
+openrec/
+├── app/
+│   ├── public/
+│   │   ├── favicon.ico
+│   │   ├── manifest.json
+│   │   └── sw.js
+│   ├── src/
+│   │   ├── assets/
+│   │   │   ├── icons/
+│   │   │   └── images/
+│   │   ├── components/
+│   │   │   ├── dashboard/
+│   │   │   │   ├── DashboardLayout.tsx
+│   │   │   │   ├── RecentProjects.tsx
+│   │   │   │   ├── StorageUsage.tsx
+│   │   │   │   ├── AIStatus.tsx
+│   │   │   │   ├── InstalledPacks.tsx
+│   │   │   │   └── ActivePlugins.tsx
+│   │   │   ├── editor/
+│   │   │   │   ├── EditorLayout.tsx
+│   │   │   │   ├── Timeline.tsx
+│   │   │   │   ├── TimelineTrack.tsx
+│   │   │   │   ├── TimelineClip.tsx
+│   │   │   │   ├── Preview.tsx
+│   │   │   │   ├── ToolPanel.tsx
+│   │   │   │   ├── EffectsPanel.tsx
+│   │   │   │   ├── PropertiesPanel.tsx
+│   │   │   │   └── ExportPanel.tsx
+│   │   │   ├── hub/
+│   │   │   │   ├── HubLayout.tsx
+│   │   │   │   ├── PackCard.tsx
+│   │   │   │   ├── PluginCard.tsx
+│   │   │   │   ├── PackDetails.tsx
+│   │   │   │   ├── PluginDetails.tsx
+│   │   │   │   ├── CreatorProfile.tsx
+│   │   │   │   └── Reviews.tsx
+│   │   │   ├── recorder/
+│   │   │   │   ├── RecorderLayout.tsx
+│   │   │   │   ├── ScreenCapture.tsx
+│   │   │   │   ├── CameraCapture.tsx
+│   │   │   │   ├── AudioCapture.tsx
+│   │   │   │   ├── RecordingControls.tsx
+│   │   │   │   └── BufferIndicator.tsx
+│   │   │   ├── shared/
+│   │   │   │   ├── Navbar.tsx
+│   │   │   │   ├── Sidebar.tsx
+│   │   │   │   ├── SearchBar.tsx
+│   │   │   │   └── Notifications.tsx
+│   │   │   └── ui/
+│   │   │       ├── Button.tsx
+│   │   │       ├── Card.tsx
+│   │   │       ├── Modal.tsx
+│   │   │       ├── Dropdown.tsx
+│   │   │       ├── Slider.tsx
+│   │   │       ├── Toggle.tsx
+│   │   │       ├── ProgressBar.tsx
+│   │   │       ├── Tooltip.tsx
+│   │   │       └── GlassPanel.tsx
+│   │   ├── hooks/
+│   │   │   ├── useRecorder.ts
+│   │   │   ├── useEditor.ts
+│   │   │   ├── useAIEditor.ts
+│   │   │   ├── usePacks.ts
+│   │   │   ├── usePlugins.ts
+│   │   │   ├── useProjects.ts
+│   │   │   └── useStorage.ts
+│   │   ├── pages/
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── Editor.tsx
+│   │   │   ├── Recorder.tsx
+│   │   │   ├── Hub.tsx
+│   │   │   ├── Settings.tsx
+│   │   │   └── ProjectDetails.tsx
+│   │   ├── services/
+│   │   │   ├── engine.ts
+│   │   │   ├── ai.ts
+│   │   │   ├── hub.ts
+│   │   │   ├── storage.ts
+│   │   │   └── sync.ts
+│   │   ├── store/
+│   │   │   ├── index.ts
+│   │   │   ├── recorderSlice.ts
+│   │   │   ├── editorSlice.ts
+│   │   │   ├── projectSlice.ts
+│   │   │   ├── aiSlice.ts
+│   │   │   ├── packsSlice.ts
+│   │   │   └── pluginsSlice.ts
+│   │   ├── styles/
+│   │   │   ├── globals.css
+│   │   │   ├── theme.css
+│   │   │   ├── animations.css
+│   │   │   └── glassmorphism.css
+│   │   ├── types/
+│   │   │   ├── project.ts
+│   │   │   ├── media.ts
+│   │   │   ├── recording.ts
+│   │   │   ├── pack.ts
+│   │   │   ├── plugin.ts
+│   │   │   └── ai.ts
+│   │   ├── utils/
+│   │   │   ├── formats.ts
+│   │   │   ├── validation.ts
+│   │   │   └── platform.ts
+│   │   ├── App.tsx
+│   │   └── main.tsx
+│   ├── tauri.conf.json
+│   ├── package.json
+│   └── tsconfig.json
+├── engine/
+│   ├── core/
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       ├── lib.rs
+│   │       ├── project.rs
+│   │       ├── media.rs
+│   │       └── timeline.rs
+│   ├── recorder/
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       ├── lib.rs
+│   │       ├── capture/
+│   │       │   ├── mod.rs
+│   │       │   ├── screen.rs
+│   │       │   ├── window.rs
+│   │       │   ├── camera.rs
+│   │       │   └── region.rs
+│   │       ├── buffer/
+│   │       │   ├── mod.rs
+│   │       │   ├── circular.rs
+│   │       │   └── replay.rs
+│   │       ├── audio/
+│   │       │   ├── mod.rs
+│   │       │   ├── microphone.rs
+│   │       │   ├── system.rs
+│   │       │   └── mixer.rs
+│   │       └── encoder/
+│   │           ├── mod.rs
+│   │           ├── video.rs
+│   │           ├── audio.rs
+│   │           └── hardware.rs
+│   ├── editor/
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       ├── lib.rs
+│   │       ├── timeline.rs
+│   │       ├── render.rs
+│   │       └── effects.rs
+│   ├── ai/
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       ├── lib.rs
+│   │       ├── super_resolution.rs
+│   │       ├── bitrate_enhance.rs
+│   │       ├── audio_enhance.rs
+│   │       └── editor_ai.rs
+│   ├── plugins/
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       ├── lib.rs
+│   │       ├── runtime.rs
+│   │       ├── wasm_bridge.rs
+│   │       └── sandbox.rs
+│   ├── packs/
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       ├── lib.rs
+│   │       ├── reader.rs
+│   │       └── validator.rs
+│   ├── export/
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       ├── lib.rs
+│   │       └── encoder.rs
+│   └── Cargo.toml
+├── hub-server/
+│   ├── migrations/
+│   │   ├── 001_create_users.sql
+│   │   ├── 002_create_packs.sql
+│   │   ├── 003_create_plugins.sql
+│   │   └── 004_create_reviews.sql
+│   ├── src/
+│   │   ├── main.rs
+│   │   ├── routes/
+│   │   │   ├── mod.rs
+│   │   │   ├── packs.rs
+│   │   │   ├── plugins.rs
+│   │   │   ├── users.rs
+│   │   │   └── reviews.rs
+│   │   ├── models/
+│   │   │   ├── mod.rs
+│   │   │   ├── pack.rs
+│   │   │   ├── plugin.rs
+│   │   │   ├── user.rs
+│   │   │   └── review.rs
+│   │   └── services/
+│   │       ├── mod.rs
+│   │       ├── storage.rs
+│   │       └── cdn.rs
+│   ├── Cargo.toml
+│   └── Dockerfile
+├── plugins-example/
+│   ├── hello-world/
+│   │   ├── plugin.json
+│   │   ├── src/
+│   │   │   └── lib.rs
+│   │   └── Cargo.toml
+│   └── youtube-uploader/
+│       ├── plugin.json
+│       ├── src/
+│       │   └── lib.rs
+│       └── Cargo.toml
+├── docs/
+│   ├── book/
+│   │   ├── src/
+│   │   │   ├── SUMMARY.md
+│   │   │   ├── introduction.md
+│   │   │   ├── installation.md
+│   │   │   ├── recording.md
+│   │   │   ├── editing.md
+│   │   │   ├── ai-features.md
+│   │   │   ├── packs.md
+│   │   │   ├── plugins.md
+│   │   │   └── contributing.md
+│   │   └── book.toml
+│   └── api/
+│       ├── engine.md
+│       ├── plugins.md
+│       └── hub.md
+├── scripts/
+│   ├── build.sh
+│   ├── dev.sh
+│   ├── test.sh
+│   └── release.sh
+├── .github/
+│   └── workflows/
+│       ├── ci.yml
+│       ├── cd.yml
+│       └── release.yml
+├── .gitignore
+├── README.md
+└── LICENSE
