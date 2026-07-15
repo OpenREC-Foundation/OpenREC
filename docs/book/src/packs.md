@@ -22,4 +22,33 @@ meu-pack.openrecpack
 ├── fonts/
 ├── ai-rules.json
 └── config.json
+
 ```
+
+O arquivo `config.json` define metadados e parâmetros que a IA usará como estilo de edição.
+
+### Exemplo de config.json
+
+```json
+{
+  "name": "Gaming Extreme",
+  "version": "1.2.0",
+  "author": "criadorxyz",
+  "description": "Cortes rápidos, zooms e memes",
+  "category": "gaming",
+  "ai_overrides": {
+    "cut_interval": "0.8-2.0s",
+    "zoom_intensity": "high"
+  }
+}
+```
+
+OpenREC Hub
+
+O Hub é a loja comunitária integrada ao aplicativo. Ele mostra:
+
+· Packs e plugins
+· Criadores
+· Avaliações
+· Número de downloads
+· Imagens de demonstração
