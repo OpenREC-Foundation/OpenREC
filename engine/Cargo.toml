@@ -14,8 +14,8 @@ resolver = "2"
 version = "0.1.0"
 edition = "2021"
 license = "AGPL-3.0-or-later"
-authors = ["OpenREC Foundation"]
-repository = "https://github.com/openrec/openrec"
+authors = ["DaviGayDaSilva"]
+repository = "https://github.com/OpenREC-Foundation/OpenREC"
 description = "OpenREC Engine - Estúdio open-source profissional para criadores de conteúdo"
 
 [workspace.dependencies]
