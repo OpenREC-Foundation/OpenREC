@@ -1,3 +1,4 @@
+// components/dashboard/InstalledPacks.tsx
 import { Link } from 'react-router-dom';
 import GlassPanel from '../ui/GlassPanel';
 
@@ -6,12 +7,39 @@ interface Pack {
   name: string;
   version: string;
   icon: string;
+  author: string;
+  downloads: number;
+  rating: number;
 }
 
 const mockPacks: Pack[] = [
-  { id: '1', name: 'Gaming Extreme', version: '1.2.0', icon: '🎮' },
-  { id: '2', name: 'Cinematic', version: '2.0.1', icon: '🎬' },
-  { id: '3', name: 'Shorts', version: '1.5.0', icon: '📱' },
+  {
+    id: '1',
+    name: 'Gaming Extreme',
+    version: '1.2.0',
+    icon: '🎮',
+    author: 'streamerpro',
+    downloads: 2400000,
+    rating: 4.9,
+  },
+  {
+    id: '2',
+    name: 'Cinematic',
+    version: '2.0.1',
+    icon: '🎬',
+    author: 'filmmaker_ana',
+    downloads: 1800000,
+    rating: 4.8,
+  },
+  {
+    id: '3',
+    name: 'Shorts',
+    version: '1.5.0',
+    icon: '📱',
+    author: 'creatorhub',
+    downloads: 3200000,
+    rating: 4.7,
+  },
 ];
 
 const InstalledPacks = () => {
@@ -36,12 +64,17 @@ const InstalledPacks = () => {
               <span className="text-2xl">{pack.icon}</span>
               <div>
                 <p className="font-medium">{pack.name}</p>
-                <p className="text-xs text-gray-400">v{pack.version}</p>
+                <p className="text-xs text-gray-400">
+                  por {pack.author} • ★ {pack.rating} • {pack.downloads.toLocaleString()} downloads
+                </p>
               </div>
             </div>
-            <button className="text-xs px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 hover:bg-violet-500/30 transition-colors">
-              Ativo
-            </button>
+            <Link
+              to={`/hub/pack/${pack.id}`}
+              className="text-xs px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 hover:bg-violet-500/30 transition-colors"
+            >
+              Ver pack
+            </Link>
           </div>
         ))}
       </div>
