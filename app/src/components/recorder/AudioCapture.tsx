@@ -1,56 +1,71 @@
 import { useRecorderStore } from '../../store/recorderSlice';
 import GlassPanel from '../ui/GlassPanel';
 
-const CameraCapture = () => {
-  const cameraStream = useRecorderStore((state) => state.cameraStream);
-  const isCameraEnabled = useRecorderStore((state) => state.isCameraEnabled);
-  const toggleCamera = useRecorderStore((state) => state.toggleCamera);
-  const availableCameras = useRecorderStore((state) => state.availableCameras);
-  const setCameraDevice = useRecorderStore((state) => state.setCameraDevice);
-  const activeCameraId = useRecorderStore((state) => state.activeCameraId);
+const AudioCapture = () => {
+  const micEnabled = useRecorderStore((state) => state.micEnabled);
+  const systemAudioEnabled = useRecorderStore((state) => state.systemAudioEnabled);
+  const toggleMic = useRecorderStore((state) => state.toggleMic);
+  const toggleSystemAudio = useRecorderStore((state) => state.toggleSystemAudio);
+  const micLevel = useRecorderStore((state) => state.micLevel);
+  const systemAudioLevel = useRecorderStore((state) => state.systemAudioLevel);
 
   return (
     <GlassPanel className="p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold">Câmera</h2>
-        <button
-          onClick={toggleCamera}
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-            isCameraEnabled ? 'bg-green-500/20 text-green-400' : 'bg-white/10 text-gray-400'
-          }`}
-        >
-          {isCameraEnabled ? 'Ativada' : 'Desativada'}
-        </button>
+      <h2 className="text-xl font-semibold mb-4">Áudio</h2>
+      
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <span className="text-sm">Microfone</span>
+          <button
+            onClick={toggleMic}
+            className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+              micEnabled ? 'bg-green-500/20 text-green-400' : 'bg-white/10 text-gray-400'
+            }`}
+          >
+            {micEnabled ? 'Ativo' : 'Mudo'}
+          </button>
+        </div>
+        {micEnabled && (
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-green-500 transition-all"
+                style={{ width: `${Math.min(micLevel * 100, 100)}%` }}
+              />
+            </div>
+            <span className="text-xs text-gray-500 w-10 text-right">
+              {Math.round(micLevel * 100)}%
+            </span>
+          </div>
+        )}
+
+        <div className="flex items-center justify-between">
+          <span className="text-sm">Áudio do Sistema</span>
+          <button
+            onClick={toggleSystemAudio}
+            className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+              systemAudioEnabled ? 'bg-green-500/20 text-green-400' : 'bg-white/10 text-gray-400'
+            }`}
+          >
+            {systemAudioEnabled ? 'Ativo' : 'Mudo'}
+          </button>
+        </div>
+        {systemAudioEnabled && (
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-blue-500 transition-all"
+                style={{ width: `${Math.min(systemAudioLevel * 100, 100)}%` }}
+              />
+            </div>
+            <span className="text-xs text-gray-500 w-10 text-right">
+              {Math.round(systemAudioLevel * 100)}%
+            </span>
+          </div>
+        )}
       </div>
-
-      {isCameraEnabled && cameraStream ? (
-        <div className="w-40 h-30 rounded-lg overflow-hidden border-2 border-violet-500/50">
-          <video
-            srcObject={cameraStream}
-            autoPlay
-            muted
-            className="w-full h-full object-cover"
-          />
-        </div>
-      ) : isCameraEnabled ? (
-        <div className="w-40 h-30 rounded-lg bg-gray-900 flex items-center justify-center">
-          <p className="text-xs text-gray-500">Nenhuma câmera</p>
-        </div>
-      ) : null}
-
-      {availableCameras.length > 0 && (
-        <select
-          value={activeCameraId || ''}
-          onChange={(e) => setCameraDevice(e.target.value)}
-          className="mt-3 w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm"
-        >
-          {availableCameras.map((cam) => (
-            <option key={cam.id} value={cam.id}>{cam.name}</option>
-          ))}
-        </select>
-      )}
     </GlassPanel>
   );
 };
 
-export default CameraCapture;
+export default AudioCapture;
