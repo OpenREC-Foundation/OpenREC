@@ -80,10 +80,12 @@ jobs:
           sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libappindicator3-dev
       - name: Install dependencies
         run: cd app && npm ci
-      - name: Debug Tauri config files
+      - name: Clean duplicate tauri configs
         run: |
-          echo "=== Todos os tauri.conf.json encontrados ==="
-          find . -name tauri.conf.json -exec echo "Arquivo: {}" \; -exec cat {} \;
+          echo "Procurando tauri.conf.json duplicados..."
+          find . -name tauri.conf.json -not -path "./tauri.conf.json" -exec echo "Removendo: {}" \; -exec rm {} \;
+          echo "Conteúdo do tauri.conf.json principal:"
+          cat tauri.conf.json
         working-directory: app
       - name: Build Tauri app
         run: cd app && npm run tauri build
