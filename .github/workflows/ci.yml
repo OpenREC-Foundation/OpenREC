@@ -75,11 +75,14 @@ jobs:
           cache-dependency-path: app/package-lock.json
       - name: Install dependencies
         run: cd app && npm ci
-      - name: Clean Cargo cache (Tauri)
+      - name: Force clean Tauri target
         shell: bash
         run: |
-          cd app
-          cargo clean --manifest-path src-tauri/Cargo.toml
+          echo "Removendo target manualmente..."
+          rm -rf src-tauri/target
+          echo "Verificando build.rs..."
+          ls -la src-tauri/build.rs
+        working-directory: app
       - name: Build web assets and copy to src-tauri
         shell: bash
         run: |
