@@ -1,0 +1,1 @@
+{"name":"YouTube Uploader","version":"1.0.0","description":"Exporta vídeos para o YouTube","author":"openrec-community","permissions":["network","file_system"],"main":"target/wasm32-wasi/release/youtube_uploader.wasm"}

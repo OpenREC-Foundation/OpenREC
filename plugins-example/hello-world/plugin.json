@@ -1,0 +1,1 @@
+{"name":"Hello World","version":"1.0.0","description":"Um plugin de exemplo","author":"openrec-community","permissions":["log"],"main":"target/wasm32-wasi/release/hello_world.wasm"}
