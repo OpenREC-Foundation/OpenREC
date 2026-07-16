@@ -3,7 +3,10 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Resolution { pub width: u32, pub height: u32 }
+pub struct Resolution {
+    pub width: u32,
+    pub height: u32,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Project {
@@ -19,7 +22,10 @@ pub struct Project {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ProjectSource { Recorder, Import }
+pub enum ProjectSource {
+    Recorder,
+    Import,
+}
 
 impl Project {
     pub fn new(name: String, width: u32, height: u32, frame_rate: f64) -> Self {

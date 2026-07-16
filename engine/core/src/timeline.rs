@@ -10,6 +10,15 @@ pub struct Timeline {
 }
 
 impl Timeline {
-    pub fn new(frame_rate: f64, width: u32, height: u32) -> Self { Self { tracks: vec![], duration: 0.0, frame_rate, resolution: (width, height) } }
-    pub fn add_track(&mut self, track: Track) { self.tracks.push(track); }
+    pub fn new(frame_rate: f64, width: u32, height: u32) -> Self {
+        Self {
+            tracks: vec![],
+            duration: 0.0,
+            frame_rate,
+            resolution: (width, height),
+        }
+    }
+    pub fn add_track(&mut self, track: Track) {
+        self.tracks.push(track);
+    }
 }

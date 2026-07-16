@@ -3,7 +3,11 @@ use std::collections::HashMap;
 use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-pub enum MediaType { Video, Audio, Image }
+pub enum MediaType {
+    Video,
+    Audio,
+    Image,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MediaClip {
@@ -34,11 +38,17 @@ impl MediaClip {
             properties: HashMap::new(),
         }
     }
-    pub fn end_time(&self) -> f64 { self.start_time + self.duration }
+    pub fn end_time(&self) -> f64 {
+        self.start_time + self.duration
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-pub enum TrackType { Video, Audio, Effect }
+pub enum TrackType {
+    Video,
+    Audio,
+    Effect,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Track {
@@ -54,8 +64,25 @@ pub struct Track {
 
 impl Track {
     pub fn new(name: String, track_type: TrackType) -> Self {
-        Self { id: Uuid::new_v4().to_string(), name, track_type, clips: vec![], locked: false, hidden: false, muted: false, volume: 1.0 }
+        Self {
+            id: Uuid::new_v4().to_string(),
+            name,
+            track_type,
+            clips: vec![],
+            locked: false,
+            hidden: false,
+            muted: false,
+            volume: 1.0,
+        }
     }
-    pub fn add_clip(&mut self, clip: MediaClip) { self.clips.push(clip); }
-    pub fn total_duration(&self) -> f64 { self.clips.iter().map(|c| c.end_time()).max_by(|a,b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal)).unwrap_or(0.0) }
+    pub fn add_clip(&mut self, clip: MediaClip) {
+        self.clips.push(clip);
+    }
+    pub fn total_duration(&self) -> f64 {
+        self.clips
+            .iter()
+            .map(|c| c.end_time())
+            .max_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal))
+            .unwrap_or(0.0)
+    }
 }
