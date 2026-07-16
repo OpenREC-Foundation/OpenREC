@@ -76,13 +76,12 @@ jobs:
       - name: Install dependencies
         run: cd app && npm ci
       - name: Diagnose src-tauri structure
-        shell: bash
         run: |
           echo "=== Estrutura de src-tauri ==="
           find src-tauri -type f
-          echo "=== Conteúdo de build.rs ==="
+          echo "=== build.rs ==="
           cat src-tauri/build.rs || echo "build.rs NÃO ENCONTRADO"
-          echo "=== Conteúdo de Cargo.toml ==="
+          echo "=== Cargo.toml ==="
           cat src-tauri/Cargo.toml || echo "Cargo.toml NÃO ENCONTRADO"
         working-directory: app
       - name: Build web assets and copy to src-tauri
