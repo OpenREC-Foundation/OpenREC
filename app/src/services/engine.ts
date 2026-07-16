@@ -1,129 +1,20 @@
-interface ScreenSource {
-  id: string;
-  name: string;
-}
-
-interface AudioLevels {
-  mic: number;
-  system: number;
-}
-
-interface BufferStatus {
-  current: number;
-  recordingDuration: number;
-}
-
-interface RecordingConfig {
-  screenSourceId?: string;
-  cameraEnabled: boolean;
-  micEnabled: boolean;
-  systemAudioEnabled: boolean;
-}
-
-interface ExportConfig {
-  resolution: string;
-  format: string;
-  aiEnhance: boolean;
-}
-
-interface Project {
-  id: string;
-  name: string;
-  duration: number;
-  previewUrl?: string;
-}
-
-interface Track {
-  id: string;
-  name: string;
-  clips: any[];
-}
-
-const isTauri = typeof window !== 'undefined' && '__TAURI__' in window;
-
-const invoke = async (command: string, args?: Record<string, any>): Promise<any> => {
-  if (isTauri) {
-    const { invoke: tauriInvoke } = await import('@tauri-apps/api/tauri');
-    return tauriInvoke(command, args);
-  }
-  throw new Error('Engine não disponível no ambiente atual');
+export const engineService = {
+  initRecorder: async () => {},
+  getScreenSources: async (): Promise<{id:string;name:string}[]> => [],
+  getCameraDevices: async (): Promise<{id:string;name:string}[]> => [],
+  setScreenSource: async (_id: string): Promise<MediaStream> => { throw new Error('not implemented'); },
+  enableCamera: async (_id: string|null): Promise<MediaStream> => { throw new Error('not implemented'); },
+  disableCamera: () => {},
+  startRecording: async (_config: any) => {},
+  stopRecording: async () => {},
+  pauseRecording: async () => {},
+  resumeRecording: async () => {},
+  saveBuffer: async () => {},
+  getAudioLevels: async () => ({ mic: 0, system: 0 }),
+  getBufferStatus: async () => ({ current: 0, recordingDuration: 0 }),
+  stopRecorder: async () => {},
+  loadProject: async (_id: string) => ({ id: _id, name: '', duration: 0, previewUrl: '' }),
+  getTimeline: async (_id: string) => [],
+  saveProject: async (_p: any) => {},
+  exportProject: async (_id: string, _c: any) => {},
 };
-
-const engineService = {
-  initRecorder: async (): Promise<void> => {
-    await invoke('init_recorder');
-  },
-
-  getScreenSources: async (): Promise<ScreenSource[]> => {
-    return invoke('get_screen_sources');
-  },
-
-  getCameraDevices: async (): Promise<{ id: string; name: string }[]> => {
-    return invoke('get_camera_devices');
-  },
-
-  setScreenSource: async (sourceId: string): Promise<MediaStream> => {
-    return invoke('set_screen_source', { sourceId });
-  },
-
-  enableCamera: async (deviceId: string | null): Promise<MediaStream> => {
-    return invoke('enable_camera', { deviceId });
-  },
-
-  disableCamera: (): void => {
-    if (isTauri) {
-      invoke('disable_camera').catch(() => {});
-    }
-  },
-
-  startRecording: async (config: RecordingConfig): Promise<void> => {
-    await invoke('start_recording', { config });
-  },
-
-  stopRecording: async (): Promise<void> => {
-    await invoke('stop_recording');
-  },
-
-  pauseRecording: async (): Promise<void> => {
-    await invoke('pause_recording');
-  },
-
-  resumeRecording: async (): Promise<void> => {
-    await invoke('resume_recording');
-  },
-
-  saveBuffer: async (): Promise<void> => {
-    await invoke('save_buffer');
-  },
-
-  getAudioLevels: async (): Promise<AudioLevels> => {
-    return invoke('get_audio_levels');
-  },
-
-  getBufferStatus: async (): Promise<BufferStatus> => {
-    return invoke('get_buffer_status');
-  },
-
-  stopRecorder: async (): Promise<void> => {
-    await invoke('stop_recorder');
-  },
-
-  loadProject: async (projectId: string): Promise<Project> => {
-    return invoke('load_project', { projectId });
-  },
-
-  getTimeline: async (projectId: string): Promise<Track[]> => {
-    return invoke('get_timeline', { projectId });
-  },
-
-  saveProject: async (project: Project): Promise<void> => {
-    await invoke('save_project', { project });
-  },
-
-  exportProject: async (projectId: string, config: ExportConfig): Promise<void> => {
-    await invoke('export_project', { projectId, config });
-  },
-};
-
-export { engineService };
-export type { ScreenSource, AudioLevels, BufferStatus, RecordingConfig, ExportConfig, Project, Track };

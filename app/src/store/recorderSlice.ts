@@ -1,10 +1,6 @@
 import { create } from 'zustand';
 
-interface ScreenSource {
-  id: string;
-  name: string;
-  stream: MediaStream | null;
-}
+interface ScreenSource { id: string; name: string; stream: MediaStream | null }
 
 interface RecorderState {
   screenSource: ScreenSource | null;
@@ -24,62 +20,48 @@ interface RecorderState {
   maxBuffer: number;
   error: string | null;
 
-  setScreenSource: (source: ScreenSource) => void;
-  setAvailableSources: (sources: { id: string; name: string }[]) => void;
-  setCameraStream: (stream: MediaStream | null) => void;
-  setIsCameraEnabled: (enabled: boolean) => void;
-  setAvailableCameras: (cameras: { id: string; name: string }[]) => void;
-  setCameraDevice: (deviceId: string) => void;
+  setScreenSource: (s: ScreenSource) => void;
+  setAvailableSources: (s: { id: string; name: string }[]) => void;
+  setCameraStream: (s: MediaStream | null) => void;
+  setIsCameraEnabled: (e: boolean) => void;
+  setAvailableCameras: (c: { id: string; name: string }[]) => void;
+  setCameraDevice: (id: string) => void;
   toggleMic: () => void;
   toggleSystemAudio: () => void;
-  setMicLevel: (level: number) => void;
-  setSystemAudioLevel: (level: number) => void;
-  setIsRecording: (recording: boolean) => void;
-  setIsPaused: (paused: boolean) => void;
-  setDuration: (duration: number) => void;
-  setBufferSeconds: (seconds: number) => void;
-  setMaxBuffer: (max: number) => void;
-  setError: (error: string | null) => void;
+  toggleCamera: () => void;
+  setMicLevel: (l: number) => void;
+  setSystemAudioLevel: (l: number) => void;
+  setIsRecording: (r: boolean) => void;
+  setIsPaused: (p: boolean) => void;
+  setDuration: (d: number) => void;
+  setBufferSeconds: (s: number) => void;
+  setMaxBuffer: (m: number) => void;
+  setError: (e: string | null) => void;
   reset: () => void;
 }
 
-const initialState = {
-  screenSource: null,
-  availableSources: [],
-  cameraStream: null,
-  isCameraEnabled: false,
-  availableCameras: [],
-  activeCameraId: null,
-  micEnabled: true,
-  systemAudioEnabled: false,
-  micLevel: 0,
-  systemAudioLevel: 0,
-  isRecording: false,
-  isPaused: false,
-  duration: 0,
-  bufferSeconds: 0,
-  maxBuffer: 120,
-  error: null,
-};
-
 export const useRecorderStore = create<RecorderState>((set) => ({
-  ...initialState,
+  screenSource: null, availableSources: [], cameraStream: null, isCameraEnabled: false,
+  availableCameras: [], activeCameraId: null, micEnabled: true, systemAudioEnabled: false,
+  micLevel: 0, systemAudioLevel: 0, isRecording: false, isPaused: false, duration: 0,
+  bufferSeconds: 0, maxBuffer: 120, error: null,
 
-  setScreenSource: (source) => set({ screenSource: source }),
-  setAvailableSources: (sources) => set({ availableSources: sources }),
-  setCameraStream: (stream) => set({ cameraStream: stream }),
-  setIsCameraEnabled: (enabled) => set({ isCameraEnabled: enabled }),
-  setAvailableCameras: (cameras) => set({ availableCameras: cameras }),
-  setCameraDevice: (deviceId) => set({ activeCameraId: deviceId }),
-  toggleMic: () => set((state) => ({ micEnabled: !state.micEnabled })),
-  toggleSystemAudio: () => set((state) => ({ systemAudioEnabled: !state.systemAudioEnabled })),
-  setMicLevel: (level) => set({ micLevel: level }),
-  setSystemAudioLevel: (level) => set({ systemAudioLevel: level }),
-  setIsRecording: (recording) => set({ isRecording: recording }),
-  setIsPaused: (paused) => set({ isPaused: paused }),
-  setDuration: (duration) => set({ duration }),
-  setBufferSeconds: (seconds) => set({ bufferSeconds: seconds }),
-  setMaxBuffer: (max) => set({ maxBuffer: max }),
-  setError: (error) => set({ error }),
-  reset: () => set(initialState),
+  setScreenSource: (s) => set({ screenSource: s }),
+  setAvailableSources: (s) => set({ availableSources: s }),
+  setCameraStream: (s) => set({ cameraStream: s }),
+  setIsCameraEnabled: (e) => set({ isCameraEnabled: e }),
+  setAvailableCameras: (c) => set({ availableCameras: c }),
+  setCameraDevice: (id) => set({ activeCameraId: id }),
+  toggleMic: () => set((s) => ({ micEnabled: !s.micEnabled })),
+  toggleSystemAudio: () => set((s) => ({ systemAudioEnabled: !s.systemAudioEnabled })),
+  toggleCamera: () => set((s) => ({ isCameraEnabled: !s.isCameraEnabled })),
+  setMicLevel: (l) => set({ micLevel: l }),
+  setSystemAudioLevel: (l) => set({ systemAudioLevel: l }),
+  setIsRecording: (r) => set({ isRecording: r }),
+  setIsPaused: (p) => set({ isPaused: p }),
+  setDuration: (d) => set({ duration: d }),
+  setBufferSeconds: (s) => set({ bufferSeconds: s }),
+  setMaxBuffer: (m) => set({ maxBuffer: m }),
+  setError: (e) => set({ error: e }),
+  reset: () => set({ screenSource: null, cameraStream: null, isCameraEnabled: false, micEnabled: true, systemAudioEnabled: false, isRecording: false, isPaused: false, duration: 0, bufferSeconds: 0, error: null }),
 }));

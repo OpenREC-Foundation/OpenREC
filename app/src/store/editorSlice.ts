@@ -1,10 +1,8 @@
 import { create } from 'zustand';
-import type { Project, Track } from '../services/engine';
+import type { Project } from '../types/project';
+import type { Track } from '../types/media';
 
-interface AISuggestion {
-  id: string;
-  description: string;
-}
+interface AISuggestion { id: string; description: string }
 
 interface EditorState {
   project: Project | null;
@@ -18,63 +16,48 @@ interface EditorState {
   isExporting: boolean;
   aiSuggestions: AISuggestion[];
 
-  setProject: (project: Project | null) => void;
-  setTracks: (tracks: Track[]) => void;
-  setSelectedClipId: (clipId: string | null) => void;
-  setCurrentTime: (time: number) => void;
-  setPlaying: (playing: boolean) => void;
-  setLoading: (loading: boolean) => void;
-  setError: (error: string | null) => void;
-  setShowExport: (show: boolean) => void;
-  setExporting: (exporting: boolean) => void;
-  setAISuggestions: (suggestions: AISuggestion[]) => void;
+  setProject: (p: Project | null) => void;
+  setTracks: (t: Track[]) => void;
+  setSelectedClipId: (id: string | null) => void;
+  setCurrentTime: (t: number) => void;
+  setPlaying: (p: boolean) => void;
+  setLoading: (l: boolean) => void;
+  setError: (e: string | null) => void;
+  setShowExport: (s: boolean) => void;
+  setExporting: (e: boolean) => void;
+  setAISuggestions: (s: AISuggestion[]) => void;
   removeAISuggestion: (id: string) => void;
-
-  selectClip: (clipId: string | null) => void;
+  selectClip: (id: string | null) => void;
   addEffectToClip: (clipId: string, effectId: string) => void;
-  updateClipProperty: (clipId: string, property: string, value: any) => void;
+  updateClipProperty: (clipId: string, prop: string, val: any) => void;
   showExportPanel: () => void;
-  hideExportPanel: () => void;
-  applyAISuggestion: (suggestionId: string) => void;
+  hideExport: () => void;
+  exportProject: (config: { resolution: string; format: string; aiEnhance: boolean }) => void;
+  applyAISuggestion: (id: string) => void;
   reset: () => void;
 }
 
-const initialState = {
-  project: null,
-  tracks: [],
-  selectedClipId: null,
-  currentTime: 0,
-  isPlaying: false,
-  isLoading: false,
-  error: null,
-  showExport: false,
-  isExporting: false,
-  aiSuggestions: [],
-};
-
 export const useEditorStore = create<EditorState>((set) => ({
-  ...initialState,
+  project: null, tracks: [], selectedClipId: null, currentTime: 0, isPlaying: false,
+  isLoading: false, error: null, showExport: false, isExporting: false, aiSuggestions: [],
 
-  setProject: (project) => set({ project }),
-  setTracks: (tracks) => set({ tracks }),
-  setSelectedClipId: (clipId) => set({ selectedClipId: clipId }),
-  setCurrentTime: (time) => set({ currentTime: time }),
-  setPlaying: (playing) => set({ isPlaying: playing }),
-  setLoading: (loading) => set({ isLoading: loading }),
-  setError: (error) => set({ error }),
-  setShowExport: (show) => set({ showExport: show }),
-  setExporting: (exporting) => set({ isExporting: exporting }),
-  setAISuggestions: (suggestions) => set({ aiSuggestions: suggestions }),
-  removeAISuggestion: (id) =>
-    set((state) => ({
-      aiSuggestions: state.aiSuggestions.filter((s) => s.id !== id),
-    })),
-
-  selectClip: (clipId) => set({ selectedClipId: clipId }),
+  setProject: (p) => set({ project: p }),
+  setTracks: (t) => set({ tracks: t }),
+  setSelectedClipId: (id) => set({ selectedClipId: id }),
+  setCurrentTime: (t) => set({ currentTime: t }),
+  setPlaying: (p) => set({ isPlaying: p }),
+  setLoading: (l) => set({ isLoading: l }),
+  setError: (e) => set({ error: e }),
+  setShowExport: (s) => set({ showExport: s }),
+  setExporting: (e) => set({ isExporting: e }),
+  setAISuggestions: (s) => set({ aiSuggestions: s }),
+  removeAISuggestion: (id) => set((s) => ({ aiSuggestions: s.aiSuggestions.filter((x) => x.id !== id) })),
+  selectClip: (id) => set({ selectedClipId: id }),
   addEffectToClip: (_clipId, _effectId) => {},
-  updateClipProperty: (_clipId, _property, _value) => {},
+  updateClipProperty: (_clipId, _prop, _val) => {},
   showExportPanel: () => set({ showExport: true }),
-  hideExportPanel: () => set({ showExport: false }),
-  applyAISuggestion: (_suggestionId) => {},
-  reset: () => set(initialState),
+  hideExport: () => set({ showExport: false }),
+  exportProject: (_config) => {},
+  applyAISuggestion: (_id) => {},
+  reset: () => set({ project: null, tracks: [], selectedClipId: null, currentTime: 0, isPlaying: false, isLoading: false, error: null, showExport: false, isExporting: false, aiSuggestions: [] }),
 }));

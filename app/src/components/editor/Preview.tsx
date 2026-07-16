@@ -38,6 +38,8 @@ const Preview = () => {
     );
   }
 
+  const durationSec = parseFloat(project.duration) || 0;
+
   return (
     <div className="relative flex-1 bg-black">
       <video
@@ -48,7 +50,7 @@ const Preview = () => {
         onClick={handlePlayPause}
       />
       <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md rounded-lg px-4 py-2 text-sm">
-        {new Date(currentTime * 1000).toISOString().substr(11, 8)} / {new Date(project.duration * 1000).toISOString().substr(11, 8)}
+        {new Date(currentTime * 1000).toISOString().substr(11, 8)} / {new Date(durationSec * 1000).toISOString().substr(11, 8)}
       </div>
     </div>
   );
