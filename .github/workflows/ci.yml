@@ -81,9 +81,23 @@ jobs:
       - name: Install dependencies
         run: cd app && npm ci
       - name: Build Tauri app
-        run: cd app && npm run tauri build
+        run: |
+          cd app
+          # Usa --bundles deb,appimage,msi,dmg para pular assinatura se possível? Não, vamos usar o default.
+          npm run tauri build
+          echo "=== Listando target/release ==="
+          ls -la src-tauri/target/release/
+          echo "=== Listando bundle (se existir) ==="
+          ls -la src-tauri/target/release/bundle/ || echo "Pasta bundle não encontrada"
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: openrec-${{ matrix.os }}
-          path: app/src-tauri/target/release/bundle/
+          # Caminho coringa para pegar qualquer instalador gerado
+          path: |
+            app/src-tauri/target/release/bundle/*.deb
+            app/src-tauri/target/release/bundle/*.AppImage
+            app/src-tauri/target/release/bundle/*.msi
+            app/src-tauri/target/release/bundle/*.dmg
+            app/src-tauri/target/release/bundle/*.tar.gz
+          if-no-files-found: ignore
