@@ -81,9 +81,17 @@ jobs:
       - name: Install dependencies
         run: cd app && npm ci
       - name: Build Tauri app
-        run: cd app && npm run tauri build
+        run: cd app && cat app/src-tauri/tauri.conf.json && rm -rf app/src-tauri/target && npm run tauri build
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: openrec-${{ matrix.os }}
           path: app/src-tauri/target/release/bundle/
+
+      - name: Clean Tauri cache
+        if: runner.os == 'macOS'
+        run: |
+          cat app/src-tauri/tauri.conf.json
+          rm -rf app/src-tauri/target
+          rm -rf ~/.cargo/registry
+          rm -rf ~/.cargo/git
