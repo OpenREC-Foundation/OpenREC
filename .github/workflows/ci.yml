@@ -75,21 +75,18 @@ jobs:
           cache-dependency-path: app/package-lock.json
       - name: Install dependencies
         run: cd app && npm ci
-      - name: Force clean Tauri target
-        shell: bash
-        run: |
-          echo "Removendo target manualmente..."
-          rm -rf src-tauri/target
-          echo "Verificando build.rs..."
-          ls -la src-tauri/build.rs
-        working-directory: app
-      - name: Build web assets and copy to src-tauri
+      - name: Build web assets and prepare Tauri config
         shell: bash
         run: |
           cd app
           npm run build
-          rm -rf src-tauri/dist
-          cp -r dist src-tauri/dist
+          # Força distDir absoluto no tauri.conf.json para evitar problemas de caminho relativo
+          ABSOLUTE_DIST=$(pwd)/dist
+          echo "Dist absoluto: $ABSOLUTE_DIST"
+          # Cria um backup e modifica
+          cp tauri.conf.json tauri.conf.json.bak
+          jq ".build.distDir = \"$ABSOLUTE_DIST\"" tauri.conf.json > tmp.json && mv tmp.json tauri.conf.json
+          cat tauri.conf.json
       - name: Build Tauri app
         shell: bash
         run: |
