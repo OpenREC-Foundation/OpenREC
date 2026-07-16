@@ -75,14 +75,28 @@ jobs:
           cache-dependency-path: app/package-lock.json
       - name: Install dependencies
         run: cd app && npm ci
-      - name: Build web assets and copy to src-tauri
+      - name: Diagnose and prepare
         run: |
-          cd app
+          echo "=== Diretório atual: $(pwd) ==="
+          echo "=== tauri.conf.json ==="
+          cat tauri.conf.json || echo "Não encontrado"
+          echo "=== Construindo web assets ==="
           npm run build
+          echo "=== Verificando dist/ ==="
+          ls -la dist/
+          echo "=== Copiando dist para src-tauri/dist (segurança) ==="
           rm -rf src-tauri/dist
           cp -r dist src-tauri/dist
+          ls -la src-tauri/dist/
+          echo "=== Definindo TAURI_DIST_DIR como absoluto ==="
+          echo "TAURI_DIST_DIR=$(pwd)/dist" >> $GITHUB_ENV
+        working-directory: app
       - name: Build Tauri app
-        run: cd app && npm run tauri build
+        run: |
+          cd app
+          npm run tauri build
+        env:
+          TAURI_DIST_DIR: ${{ github.workspace }}/app/dist
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
