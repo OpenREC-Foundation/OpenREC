@@ -13,3 +13,7 @@ tauri = { version = "1", features = ["shell-open"] }
 [features]
 default = ["custom-protocol"]
 custom-protocol = ["tauri/custom-protocol"]
+
+[[bin]]
+name = "openrec"
+path = "src-tauri/src/main.rs"
