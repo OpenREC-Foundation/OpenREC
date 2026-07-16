@@ -1,0 +1,48 @@
+name: Build Desktop
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-desktop:
+    name: Build Desktop (Tauri)
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+      - name: Install system dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libappindicator3-dev
+      - name: Install dependencies
+        run: cd app && npm ci
+      - name: Clean duplicate tauri configs
+        run: |
+          echo "=== Antes da limpeza ==="
+          find . -name tauri.conf.json
+          echo "=== Removendo duplicatas ==="
+          find . -name tauri.conf.json -not -path "./tauri.conf.json" -exec rm -v {} \;
+          echo "=== Depois da limpeza ==="
+          find . -name tauri.conf.json
+          echo "=== Conteúdo do tauri.conf.json ==="
+          cat tauri.conf.json
+        working-directory: app
+      - name: Build Tauri app
+        run: cd app && npm run tauri build
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: openrec-${{ matrix.os }}
+          path: app/src-tauri/target/release/bundle/
