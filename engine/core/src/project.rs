@@ -3,10 +3,7 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Resolution {
-    pub width: u32,
-    pub height: u32,
-}
+pub struct Resolution { pub width: u32, pub height: u32 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Project {
@@ -22,10 +19,7 @@ pub struct Project {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum ProjectSource {
-    Recorder,
-    Import,
-}
+pub enum ProjectSource { Recorder, Import }
 
 impl Project {
     pub fn new(name: String, width: u32, height: u32, frame_rate: f64) -> Self {
@@ -41,24 +35,5 @@ impl Project {
             preview_url: None,
             source: ProjectSource::Recorder,
         }
-    }
-
-    pub fn update_duration(&mut self, duration: f64) {
-        self.duration = duration;
-        self.last_modified = Utc::now();
-    }
-
-    pub fn rename(&mut self, name: String) {
-        self.name = name;
-        self.last_modified = Utc::now();
-    }
-
-    pub fn set_preview_url(&mut self, url: String) {
-        self.preview_url = Some(url);
-        self.last_modified = Utc::now();
-    }
-
-    pub fn touch(&mut self) {
-        self.last_modified = Utc::now();
     }
 }

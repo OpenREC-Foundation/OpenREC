@@ -13,21 +13,4 @@ export const formatFileSize = (bytes: number): string => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 };
 
-export const formatDuration = (seconds: number): string => {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-};
-
-export const formatNumber = (num: number): string => {
-  return num.toLocaleString('pt-BR');
-};
-
-export const formatDate = (date: string | Date): string => {
-  const d = new Date(date);
-  return d.toLocaleDateString('pt-BR', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
-};
+export const formatNumber = (num: number): string => num.toLocaleString('pt-BR');
