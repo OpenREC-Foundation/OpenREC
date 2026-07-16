@@ -75,15 +75,11 @@ jobs:
           cache-dependency-path: app/package-lock.json
       - name: Install dependencies
         run: cd app && npm ci
-      - name: Diagnose src-tauri structure
+      - name: Clean Cargo cache (Tauri)
+        shell: bash
         run: |
-          echo "=== Estrutura de src-tauri ==="
-          find src-tauri -type f
-          echo "=== build.rs ==="
-          cat src-tauri/build.rs || echo "build.rs NÃO ENCONTRADO"
-          echo "=== Cargo.toml ==="
-          cat src-tauri/Cargo.toml || echo "Cargo.toml NÃO ENCONTRADO"
-        working-directory: app
+          cd app
+          cargo clean --manifest-path src-tauri/Cargo.toml
       - name: Build web assets and copy to src-tauri
         shell: bash
         run: |
@@ -95,7 +91,6 @@ jobs:
         shell: bash
         run: |
           cd app
-          cargo clean --manifest-path src-tauri/Cargo.toml
           npm run tauri build
         env:
           TAURI_DIST_DIR: ${{ github.workspace }}/app/dist
