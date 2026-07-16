@@ -80,20 +80,16 @@ jobs:
           sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libappindicator3-dev
       - name: Install dependencies
         run: cd app && npm ci
-      - name: Diagnose Tauri environment
+      - name: Build web assets and prepare for Tauri
         run: |
-          echo "=== Diretório atual ==="
-          pwd
-          echo "=== Conteúdo de app/ ==="
-          ls -la
-          echo "=== Procurando tauri.conf.json duplicados ==="
-          find . -name tauri.conf.json
-          echo "=== Removendo duplicatas em subpastas ==="
-          find . -name tauri.conf.json -not -path "./tauri.conf.json" -exec rm -v {} \;
-          echo "=== Conteúdo do tauri.conf.json principal ==="
-          cat tauri.conf.json
-          echo "=== Conteúdo da pasta dist (deve existir) ==="
-          ls -la dist/ || echo "Pasta dist não encontrada!"
+          npm run build
+          echo "=== Conteúdo de dist/ ==="
+          ls -la dist/
+          echo "=== Copiando assets para src-tauri/dist ==="
+          mkdir -p src-tauri/dist
+          cp -r dist/* src-tauri/dist/
+          echo "=== Conteúdo de src-tauri/dist/ ==="
+          ls -la src-tauri/dist/
         working-directory: app
       - name: Build Tauri app
         run: cd app && npm run tauri build
