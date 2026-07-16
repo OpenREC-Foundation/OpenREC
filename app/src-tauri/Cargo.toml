@@ -16,4 +16,4 @@ custom-protocol = ["tauri/custom-protocol"]
 
 [[bin]]
 name = "openrec"
-path = "src-tauri/src/main.rs"
+path = "src/main.rs"
