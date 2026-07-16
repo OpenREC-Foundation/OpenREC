@@ -81,12 +81,14 @@ jobs:
       - name: Install dependencies
         run: cd app && npm ci
       - name: Build web assets and copy to src-tauri
+        shell: bash
         run: |
           cd app
           npm run build
           rm -rf src-tauri/dist
           cp -r dist src-tauri/dist
       - name: Build Tauri app
+        shell: bash
         run: |
           cd app
           npm run tauri build
